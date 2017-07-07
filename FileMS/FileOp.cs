@@ -85,6 +85,24 @@ namespace FileMS
             }
         }
 
+        public void RenameExtMp4()
+        {
+            var sFiles = new DirectoryInfo(sPath).EnumerateFiles("*.avi", SearchOption.AllDirectories);
+            foreach (var file in sFiles)
+            {
+                var info = FileMediaInfo(file.FullName);
+                if (info.VideoCodec.StartsWith("AVC"))
+                {
+                    Console.WriteLine("file:{0}\tv:{1}\ta:{2}", file.Name, info.VideoCodec, info.AudioCodec);
+                    String reName = file.FullName.Replace(".avi", ".mp4");
+                    Console.WriteLine(reName);
+                    file.MoveTo(reName);
+                }
+                
+                // Console.WriteLine("file:{0}\tv:{1}\ta:{2}",file.Name,info.VideoCodec,info.AudioCodec);
+            }
+        }
+
         private static MediaInfoWrapper FileMediaInfo(string file)
         {
             var mInfo = new MediaInfoWrapper(file, Environment.CurrentDirectory);
